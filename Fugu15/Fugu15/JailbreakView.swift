@@ -18,19 +18,19 @@ enum JBStatus {
     func text() -> String {
         switch self {
         case .notStarted:
-            return "Jailbreak"
+            return "越狱"
 
         case .unsupported:
-            return "Unsupported"
+            return "不支持"
 
         case .inProgress:
-            return "Jailbreaking..."
+            return "越狱中..."
 
         case .failed:
-            return "Error!"
+            return "错误!"
 
         case .done:
-            return "Jailbroken!"
+            return "已越狱!"
         }
     }
 
@@ -90,7 +90,7 @@ struct JailbreakView: View {
                 .font(.footnote)
                 .opacity(0.4)
 
-            Button("Respring", action: {
+            Button("注销", action: {
                 execCmd(args: ["/var/jb/usr/bin/killall", "-9", "backboardd"])
             })
                 .padding()
@@ -98,7 +98,7 @@ struct JailbreakView: View {
                 .cornerRadius(10)
                 .foregroundColor(Color.white)
 
-            Button("ldrestart", action: {
+            Button("软重启", action: {
                 execCmd(args: ["/var/jb/usr/bin/ldrestart"])
             })
                 .padding()
@@ -106,7 +106,7 @@ struct JailbreakView: View {
                 .cornerRadius(10)
                 .foregroundColor(Color.white)
 
-            Button("reboot userspace", action: {
+            Button("重启用户空间", action: {
                 execCmd(args: ["/var/jb/usr/bin/launchctl", "reboot", "userspace"])
             })
                 .padding()
@@ -123,9 +123,9 @@ struct JailbreakView: View {
                 .foregroundColor(Color.white)
         }.alert(isPresented: $showSuccessMsg) {
             Alert(
-                title: Text("Success"),
-                message: Text("Post environment started successfully, " +
-                            "system wide injection will only affect newly spawned processes for now."),
+                title: Text("成功"),
+                message: Text("越狱环境已成功建立，" +
+                              "但系统范围的注入将仅仅影响自此之后的新进程。"),
                 dismissButton: .default(
                     Text("OK")
                 )
