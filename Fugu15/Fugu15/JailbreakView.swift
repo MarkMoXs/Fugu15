@@ -98,18 +98,24 @@ struct JailbreakView: View {
                 .cornerRadius(10)
                 .foregroundColor(Color.white)
 
-
             Button("ldrestart", action: {
                 execCmd(args: ["/var/jb/usr/bin/ldrestart"])
+            })
+                .padding()
+                .background(Color.blue)
+                .cornerRadius(10)
+                .foregroundColor(Color.white)
+
+            Button("reboot userspace", action: {
+                execCmd(args: ["/var/jb/usr/bin/launchctl", "reboot", "userspace"])
             })
                 .padding()
                 .background(Color.orange)
                 .cornerRadius(10)
                 .foregroundColor(Color.white)
 
-
-            Button("reboot userspace", action: {
-                execCmd(args: ["/var/jb/usr/bin/launchctl", "reboot", "userspace"])
+            Button("重启", action: {
+                execCmd(args: ["/var/jb/usr/sbin/reboot"])
             })
                 .padding()
                 .background(Color.red)
