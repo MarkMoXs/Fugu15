@@ -257,18 +257,23 @@ int64_t initEnvironment(NSDictionary *settings) {
 
   BOOL mountFonts = ![[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/.nofonts"];
   if (mountFonts) {
+    JBLogDebug("Does not detected .nofont, start to bind mount the font path.");
     NSString *fakeFontsPath = @"/var/jb/System/Library/Fonts";
     NSString *fontsPath = @"/System/Library/Fonts";
     if (![[NSFileManager defaultManager] fileExistsAtPath:@"/var/jb/System/Library/Fonts/CoreUI"]) {
+      JBLogDebug("The font path doesn't exist, copy...");
       [[NSFileManager defaultManager] removeItemAtPath:fakeFontsPath error:nil];
       BOOL copySuc = [[NSFileManager defaultManager] copyItemAtPath:fontsPath toPath:fakeFontsPath error:nil];
       if (!copySuc) {
+        JBLogDebug("ERROR: Failed to copy!");
         return 9;
       }
     }
+    JBLogDebug("binding...");
     uint64_t bindMountFontsRet =
         bindMount(fontsPath.fileSystemRepresentation, fakeFontsPath.fileSystemRepresentation);
     if (bindMountFontsRet != 0) {
+      JBLogDebug("ERROR: Failed to bindMount!");
       return 10;
     }
   }
