@@ -89,17 +89,39 @@ struct JailbreakView: View {
                 .padding([.leading, .trailing])
                 .font(.footnote)
                 .opacity(0.4)
+
+            Button("Respring", action: {
+                execCmd(args: ["/var/jb/usr/bin/killall", "-9", "backboardd"])
+            })
+                .padding()
+                .background(Color.green)
+                .cornerRadius(10)
+                .foregroundColor(Color.white)
+
+
+            Button("ldrestart", action: {
+                execCmd(args: ["/var/jb/usr/bin/ldrestart"])
+            })
+                .padding()
+                .background(Color.orange)
+                .cornerRadius(10)
+                .foregroundColor(Color.white)
+
+
+            Button("reboot userspace", action: {
+                execCmd(args: ["/var/jb/usr/bin/launchctl", "reboot", "userspace"])
+            })
+                .padding()
+                .background(Color.red)
+                .cornerRadius(10)
+                .foregroundColor(Color.white)
         }.alert(isPresented: $showSuccessMsg) {
             Alert(
                 title: Text("Success"),
                 message: Text("Post environment started successfully, " +
-                              "system wide injection will only affect newly spawned processes for now.\n" +
-                              "Click OK to reboot userspace!"),
+                            "system wide injection will only affect newly spawned processes for now."),
                 dismissButton: .default(
-                    Text("OK"),
-                    action: {
-                        execCmd(args: ["/var/jb/usr/bin/launchctl","reboot","userspace"])
-                    }
+                    Text("OK")
                 )
             )
         }
