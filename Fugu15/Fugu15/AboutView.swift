@@ -9,9 +9,9 @@ import SwiftUI
 
 struct AboutView: View {
     @Environment(\.openURL) var openURL
-    
+
     @State private var descriptionMaxWidth: CGFloat?
-    
+
     struct DescriptionWidthPreferenceKey: PreferenceKey {
         static let defaultValue: CGFloat = 0
 
@@ -19,7 +19,7 @@ struct AboutView: View {
             value = max(value, nextValue())
         }
     }
-    
+
     var body: some View {
         VStack(alignment: .center) {
             Image("FuguIcon")
@@ -29,7 +29,7 @@ struct AboutView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: UIScreen.main.bounds.size.width/3)
                 .shadow(radius: 10)
-            
+
             HStack(alignment: .center) {
                 VStack(alignment: .leading) {
                     Text("Fugu15 Jailbreak Tool")
@@ -45,7 +45,7 @@ struct AboutView: View {
                             })
                         )
                         .padding(.bottom)
-                    
+
                     Text("Fugu15 is an (incomplete) Jailbreak for iOS 15.0 - 15.4.1, supporting iPhone XS and newer.")
                         .multilineTextAlignment(.center)
                         .frame(width: descriptionMaxWidth)
@@ -54,7 +54,7 @@ struct AboutView: View {
                         descriptionMaxWidth = $0
                     }
             }.padding(.bottom)
-            
+
             //
             // You should change the links below if you make any changes to Fugu15
             // so that others know where to find the source code
@@ -65,9 +65,11 @@ struct AboutView: View {
                 .padding([.top, .leading, .trailing])
             Link("Credits", destination: URL(string: "https://github.com/pinauten/Fugu15/blob/master/README.md#Credits")!)
                 .padding([.top, .leading, .trailing])
-            
+
             Spacer()
-            
+
+            Text("Compiled Git Commit: " + Constants.commitShortHash())
+
             Group {
                 Image("PinautenLogo")
                     .resizable()
