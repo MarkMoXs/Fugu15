@@ -255,6 +255,24 @@ int64_t initEnvironment(NSDictionary *settings) {
     return 8;
   }
 
+  BOOL mountFonts = ![[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/.nofonts"];
+  if (mountFonts) {
+    NSString *fakeFontsPath = @"/var/jb/System/Library/Fonts";
+    NSString *fontsPath = @"/System/Library/Fonts";
+    if (![[NSFileManager defaultManager] fileExistsAtPath:@"/var/jb/System/Library/Fonts/CoreUI"]) {
+      [[NSFileManager defaultManager] removeItemAtPath:fakeFontsPath error:nil];
+      BOOL copySuc = [[NSFileManager defaultManager] copyItemAtPath:fontsPath toPath:fakeFontsPath error:nil];
+      if (!copySuc) {
+        return 9;
+      }
+    }
+    uint64_t bindMountFontsRet =
+        bindMount(fontsPath.fileSystemRepresentation, fakeFontsPath.fileSystemRepresentation);
+    if (bindMountFontsRet != 0) {
+      return 10;
+    }
+  }
+
   return 0;
 }
 
